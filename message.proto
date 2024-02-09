@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package grpctemplate;
+
+service MyService {
+	rpc SayHello(RequestHello) returns (ResponseHello) {}
+}
+
+message RequestHello {
+	required string name = 1; 
+}
+
+message ResponseHello {
+	required string output = 1; 
+}

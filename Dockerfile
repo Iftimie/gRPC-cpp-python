@@ -7,10 +7,12 @@ RUN echo "set(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0\")
 RUN ./vcpkg/bootstrap-vcpkg.sh
 RUN ./vcpkg/vcpkg install grpc --triplet x64-linux-release
 
-RUN python3 -m pip install grpcio-tools
+RUN python3 -m pip install grpcio-tools opencv-python
+RUN apt-get install -y libgl1-mesa-glx
 
 WORKDIR /app
 ADD message.proto message.proto
+ADD image.ppm image.ppm
 RUN mkdir py
 RUN python3 -m grpc_tools.protoc --proto_path=. --python_out=py --grpc_python_out=py message.proto
 ADD py/server.py py/server.py

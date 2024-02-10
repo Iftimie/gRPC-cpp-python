@@ -7,9 +7,18 @@ service MyService {
 }
 
 message RequestHello {
-	required string name = 1; 
+	required string name = 1;
+	required Image image = 2;
 }
 
 message ResponseHello {
-	required string output = 1; 
+	required string output = 1;
+	required Image image = 2;
+}
+
+message Image {
+	required int32 width = 1;
+	required int32 height = 2;
+	required int32 channels = 3;
+	required bytes data = 4;
 }

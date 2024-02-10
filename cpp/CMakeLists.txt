@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(cppclient)
 
+add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+
 set(Protobuf_USE_STATIC_LIBS ON)
 
 find_package(Protobuf REQUIRED)

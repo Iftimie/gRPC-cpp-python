@@ -6,11 +6,26 @@ set(Protobuf_USE_STATIC_LIBS ON)
 find_package(Protobuf REQUIRED)
 find_package(gRPC REQUIRED)
 
-add_executable( client client.cpp message.grpc.pb.cc message.pb.cc)
+set(PROTO_FILES "message.proto")
+add_executable( client client.cpp ${PROTO_FILES})
 
 target_include_directories(client PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Protobuf_INCLUDE_DIR}
+)
+
+get_target_property(grpc_cpp_plugin_location gRPC::grpc_cpp_plugin LOCATION)
+protobuf_generate(TARGET client LANGUAGE cpp)
+protobuf_generate(
+    TARGET
+        client
+    LANGUAGE
+        grpc
+    GENERATE_EXTENSIONS
+        .grpc.pb.h
+        .grpc.pb.cc
+    PLUGIN
+        "protoc-gen-grpc=${grpc_cpp_plugin_location}"
 )
 
 target_link_libraries(client

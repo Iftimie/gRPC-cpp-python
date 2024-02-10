@@ -15,13 +15,10 @@ RUN python3 -m grpc_tools.protoc --proto_path=. --python_out=py --grpc_python_ou
 ADD py/server.py py/server.py
 
 
-ENV PROTOC_PATH=/vcpkg/installed/x64-linux-release/tools/protobuf/protoc
-ENV GRPC_CPP_PLUGIN=/vcpkg/installed/x64-linux/tools/grpc/grpc_cpp_plugin
 RUN mkdir cpp
-RUN $PROTOC_PATH --cpp_out=cpp --grpc_out=cpp --plugin=protoc-gen-grpc=$GRPC_CPP_PLUGIN message.proto
-
 ADD cpp/client.cpp cpp/client.cpp
 ADD cpp/CMakeLists.txt cpp/CMakeLists.txt
+ADD message.proto cpp/message.proto
 ENV CMAKE_TOOL_CHAIN=/vcpkg/scripts/buildsystems/vcpkg.cmake
 RUN mkdir cpp/build && cd cpp/build && cmake -DVCPKG_TARGET_TRIPLET=x64-linux-release -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOL_CHAIN .. && make
 
